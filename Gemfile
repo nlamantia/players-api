@@ -15,6 +15,11 @@ gem "puma", "~> 5.0"
 # For HTTP calls
 gem 'faraday'
 
+gem 'redis'
+
+# For job processing
+gem 'sidekiq'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 

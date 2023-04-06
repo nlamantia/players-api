@@ -105,4 +105,35 @@ RSpec.describe Player, type: :model do
       end
     end
   end
+
+  describe '#name_brief' do
+    subject { player.name_brief }
+
+    let(:player) { FactoryBot.build(:player, firstname: first_name, lastname: last_name, sport: sport) }
+    let(:first_name) { 'Joe' }
+    let(:last_name) { 'Schmo' }
+    let(:sport) { :football }
+
+    context 'when given a football player' do
+      it 'returns first initial and last name' do
+        expect(subject).to eq('J. Schmo')
+      end
+    end
+
+    context 'when given a basketball player' do
+      let(:sport) { :basketball }
+
+      it 'returns first name and last initial' do
+        expect(subject).to eq('Joe S.')
+      end
+    end
+
+    context 'when given a baseball player' do
+      let(:sport) { :baseball }
+
+      it 'returns initials only' do
+        expect(subject).to eq('J. S.')
+      end
+    end
+  end
 end

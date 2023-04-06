@@ -31,4 +31,58 @@ RSpec.describe "Players", type: :request do
     end
   end
 
+  describe 'GET /players/index' do
+    let!(:player) { FactoryBot.create(:player) }
+
+    let(:query_params) do
+      {
+        sport: sport,
+        age: age,
+        position: position,
+        last_initial: last_initial
+      }
+    end
+    let(:sport) { 'football' }
+    let(:age) { '25 - 27' }
+    let(:position) { 'QB' }
+    let(:last_initial) { 'M' }
+
+    it 'returns http success' do
+      get '/players', params: query_params
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'returns the correct players' do
+      get '/players', params: query_params
+      expect(response.body).to eq([player.as_json].to_json)
+    end
+
+    context 'when the age is a specific age' do
+      let(:age) { 26 }
+
+      it 'returns http success' do
+        get '/players', params: query_params
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns the correct players' do
+        get '/players', params: query_params
+        expect(response.body).to eq([player.as_json].to_json)
+      end
+    end
+
+    context 'when the search matches no players' do
+      let(:position) { 'ZZ' }
+
+      it 'returns http success' do
+        get '/players', params: query_params
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns the no players' do
+        get '/players', params: query_params
+        expect(response.body).to eq([].to_json)
+      end
+    end
+  end
 end

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  resources :players, only: %i[show]
+  resources :players, only: %i[show index]
 
   mount Sidekiq::Web => "/sidekiq"
 end

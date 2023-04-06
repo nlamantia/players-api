@@ -5,10 +5,10 @@ class FetchPlayersJob < ApplicationJob
 
   def perform
     Player::SPORTS.each do |sport|
-      existing_player_ids = Player.send(sport).pluck(:id)
       PlayersApi.get_players_for_sport(sport).each do |p|
-        next if existing_player_ids.include? p[:id]
-        Player.create(**player_params(p), sport: sport)
+        player = Player.where(id: p[:id]).first
+        next Player.create(**player_params(p), sport: sport) if player.nil?
+        player.update(**player_params(p), sport: sport)
       end
     end
   end

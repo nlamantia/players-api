@@ -62,6 +62,22 @@ RSpec.describe FetchPlayersJob, type: :job do
         end.not_to change(Player, :count)
         expect(Player.count).to eq(3)
       end
+
+      context 'when the API has different data' do
+        let(:football_response) do
+          super().tap do |hash_array|
+            hash_array.first.merge!(age: new_age)
+          end
+        end
+        let(:new_age) { 30 }
+
+        it 'updates the player in the database', :aggregate_failures do
+          player = Player.find(football_response.first[:id])
+          expect(player.age).not_to eq(new_age)
+          subject.perform
+          expect(player.reload.age).to eq(new_age)
+        end
+      end
     end
   end
 end

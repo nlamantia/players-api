@@ -8,5 +8,24 @@ FactoryBot.define do
     position { 'QB' }
     sport { :football }
     age { 26 }
+
+    trait :baseball do
+      firstname { 'Mike' }
+      lastname { 'Trout' }
+      sport { :baseball }
+      position { 'CF' }
+    end
+
+    trait :basketball do
+      firstname { 'LeBron' }
+      lastname { 'James' }
+      sport { :basketball }
+      position { 'SF' }
+    end
+
+    trait :football do
+      sport { :football }
+      position { 'QB' }
+    end
   end
 end

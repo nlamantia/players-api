@@ -1,0 +1,48 @@
+version: "2.4"
+
+services:
+  app: &app_base
+    depends_on:
+      - redis
+      - postgres
+    environment: &app_env
+      POSTGRES_USER: admin
+      # Normally would not store plain text passwords
+      # This is for convenience only
+      POSTGRES_PASSWORD: P@ssword1
+      POSTGRES_DB: players_api
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_NAMESPACE: 1
+    build: .
+    platform: linux/x86_64
+    tty: true
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+
+  sidekiq:
+    <<: *app_base
+    depends_on:
+      - app
+    environment:
+      <<: *app_env
+      QUEUE: default
+    ports: []
+    command: ['bundle', 'exec', 'sidekiq']
+
+  postgres:
+    image: postgres:14.6
+    environment:
+      POSTGRES_USER: admin
+      # Normally would not store plain text passwords
+      # This is for convenience only
+      POSTGRES_PASSWORD: P@ssword1
+      POSTGRES_DB: players_api
+    restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped

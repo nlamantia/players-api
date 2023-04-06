@@ -8,6 +8,8 @@ FactoryBot.define do
     position { 'QB' }
     sport { :football }
     age { 26 }
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
 
     trait :baseball do
       firstname { 'Mike' }

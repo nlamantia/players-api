@@ -183,4 +183,50 @@ RSpec.describe Player, type: :model do
       end
     end
   end
+
+  describe '#as_json' do
+    subject { player.as_json }
+
+    let(:player) { FactoryBot.create(:player) }
+
+    it 'contains the id property' do
+      expect(subject['id']).not_to be_blank
+    end
+
+    it 'contains the firstname property' do
+      expect(subject['first_name']).not_to be_blank
+    end
+
+    it 'contains the lastname property' do
+      expect(subject['last_name']).not_to be_blank
+    end
+
+    it 'contains the position property' do
+      expect(subject['position']).not_to be_blank
+    end
+
+    it 'contains the age property' do
+      expect(subject['age']).not_to be_blank
+    end
+
+    it 'contains the name_brief property' do
+      expect(subject['name_brief']).not_to be_blank
+    end
+
+    it 'contains the average_position_age_diff property' do
+      expect(subject['average_position_age_diff']).not_to be_blank
+    end
+
+    it 'does not contain the sport property' do
+      expect(subject['sport']).to be_blank
+    end
+
+    it 'does not contain the updated_at property' do
+      expect(subject['updated_at']).to be_blank
+    end
+
+    it 'does not contain the created_at property' do
+      expect(subject['created_at']).to be_blank
+    end
+  end
 end

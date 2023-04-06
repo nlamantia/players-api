@@ -21,6 +21,13 @@ class Player < ApplicationRecord
     end
   end
 
+  def as_json
+    json = super(except: %i[created_at updated_at sport], methods: %i[name_brief average_position_age_diff])
+    json['first_name'] = json.delete('firstname')
+    json['last_name'] = json.delete('lastname')
+    json
+  end
+
   private
 
   def first_initial

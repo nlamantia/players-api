@@ -6,6 +6,8 @@ class Player < ApplicationRecord
   validates :id, :firstname, :lastname, :position, :sport, presence: true
   validates :age, presence: true, numericality: { only_integer: true }
 
+  scope :with_last_initial, ->(last_initial) { where("lastname LIKE ?", "#{sanitize_sql_like(last_initial.upcase)}%") }
+
   def average_position_age_diff
     age - (self.class.where(position: position).average(:age).floor)
   end

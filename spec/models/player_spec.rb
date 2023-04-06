@@ -106,6 +106,33 @@ RSpec.describe Player, type: :model do
     end
   end
 
+  describe '#with_last_initial' do
+    subject { described_class.with_last_initial(last_initial) }
+
+    let(:last_initial) { 'M' }
+    let!(:player) { FactoryBot.create(:player) }
+
+    it 'returns the correct player' do
+      expect(subject).to contain_exactly(player)
+    end
+
+    context 'when the initial is lower case' do
+      let(:last_initial) { 'm' }
+
+      it 'returns the correct player' do
+        expect(subject).to contain_exactly(player)
+      end
+    end
+
+    context 'when the initial is numeric' do
+      let(:last_initial) { '0' }
+
+      it 'returns the correct player' do
+        expect(subject).to be_empty
+      end
+    end
+  end
+
   describe '#name_brief' do
     subject { player.name_brief }
 

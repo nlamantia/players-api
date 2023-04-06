@@ -41,8 +41,12 @@ services:
       # This is for convenience only
       POSTGRES_PASSWORD: P@ssword1
       POSTGRES_DB: players_api
+    ports:
+      - '5432:5432'
     restart: unless-stopped
 
   redis:
     image: redis:latest
     restart: unless-stopped
+    ports:
+      - '6379:6379'

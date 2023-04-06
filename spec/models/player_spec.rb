@@ -159,7 +159,7 @@ RSpec.describe Player, type: :model do
       let(:player_age) { 35 }
 
       it 'returns the correct positive number' do
-        expect(subject).to eq(5.5)
+        expect(subject).to eq(6)
       end
     end
 

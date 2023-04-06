@@ -7,7 +7,7 @@ class Player < ApplicationRecord
   validates :age, presence: true, numericality: { only_integer: true }
 
   def average_position_age_diff
-    age - (self.class.where(position: position).average(:age))
+    age - (self.class.where(position: position).average(:age).floor)
   end
 
   def name_brief

@@ -136,4 +136,51 @@ RSpec.describe Player, type: :model do
       end
     end
   end
+
+  describe '#average_position_age_diff' do
+    subject { player.average_position_age_diff }
+
+    let(:player) { FactoryBot.create(:player, position: position, age: player_age) }
+    let(:position) { 'QB' }
+    let(:player_age) { 25 }
+    let(:other_player_ages) { [29, 28, 26] }
+
+    before do
+      other_player_ages.each { |age| FactoryBot.create(:player, position: position, age: age)}
+    end
+
+    context 'when the player is younger than the average age for their position' do
+      it 'returns the correct negative number' do
+        expect(subject).to eq(-2)
+      end
+    end
+
+    context 'when the player is older than the average age for their position' do
+      let(:player_age) { 35 }
+
+      it 'returns the correct positive number' do
+        expect(subject).to eq(5.5)
+      end
+    end
+
+    context 'when the player is exactly the average age for their position' do
+      let(:other_player_ages) { [25, 25] }
+
+      it 'returns 0' do
+        expect(subject).to eq(0)
+      end
+    end
+
+    context 'when the player is the only player at their position in the database' do
+      let(:other_player_ages) { [] }
+
+      before do
+        FactoryBot.create(:player, position: 'RB', age: 28)
+      end
+
+      it 'returns 0' do
+        expect(subject).to eq(0)
+      end
+    end
+  end
 end

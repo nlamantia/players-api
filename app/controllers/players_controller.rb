@@ -10,7 +10,7 @@ class PlayersController < ApplicationController
     end
 
     param_scopes.each do |param, scope|
-      @players = @players.send(scope, search_params[param])
+      @players = @players.send(scope, search_params[param]) unless search_params[param].nil?
     end
 
     render json: @players.map(&:as_json)

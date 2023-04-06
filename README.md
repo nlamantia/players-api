@@ -15,6 +15,8 @@ $ docker exec -it players-api-app-1 bundle exec rails c
 > FetchPlayersJob.perform_later # to enqueue the job and let the sidekiq worker do its job
 > exit # to exit the rails console
 ```
+This job will also run every 5 minutes. That interval may be excessive, but it was
+intentionally kept short for the sake of this demo project.
 
 ### Running Step 2 of the Project
 Make the following HTTP request using your favorite HTTP client:

@@ -8,6 +8,7 @@ class Player < ApplicationRecord
 
   scope :with_last_initial, ->(last_initial) { where("lastname LIKE ?", "#{sanitize_sql_like(last_initial.upcase)}%") }
   scope :aged, ->(ages) { where(age: ages) }
+  scope :by_position, ->(position) { where(position: position) }
 
   def average_position_age_diff
     age - (self.class.where(position: position).average(:age).floor)

@@ -155,6 +155,17 @@ RSpec.describe Player, type: :model do
     end
   end
 
+  describe '#by_position' do
+    subject { described_class.by_position(position) }
+
+    let!(:player) { FactoryBot.create(:player) }
+    let(:position) { 'QB' }
+
+    it 'returns the correct player' do
+      expect(subject).to contain_exactly(player)
+    end
+  end
+
   describe '#name_brief' do
     subject { player.name_brief }
 

@@ -11,9 +11,18 @@ RSpec.describe FetchPlayersJob, type: :job do
     let(:football_player) { FactoryBot.build(:player, :football) }
 
     let(:http_status) { 200 }
-    let(:football_response) { [JSON.parse(football_player.to_json).symbolize_keys] }
-    let(:baseball_response) { [JSON.parse(baseball_player.to_json).symbolize_keys] }
-    let(:basketball_response) { [JSON.parse(basketball_player.to_json).symbolize_keys] }
+    let(:baseball_response) do
+      player_hash = %i[id firstname lastname age position].to_h { |attr| [attr, baseball_player.send(attr)] }
+      [player_hash]
+    end
+    let(:basketball_response) do
+      player_hash = %i[id firstname lastname age position].to_h { |attr| [attr, basketball_player.send(attr)] }
+      [player_hash]
+    end
+    let(:football_response) do
+      player_hash = %i[id firstname lastname age position].to_h { |attr| [attr, football_player.send(attr)] }
+      [player_hash]
+    end
 
     before do
       allow(PlayersApi).to receive(:get_players_for_sport).with(:football).and_return(football_response)

@@ -10,17 +10,13 @@ RSpec.describe PlayersApi do
     let(:cbs_url) { 'https://api.cbssports.com/fantasy/players/list?version=3.0&sport=football&response_format=JSON' }
     let(:http_status) { 200 }
     let(:http_response_body) do
-      {
-        status: http_status,
-        body: {
-          players: player_hash_array
-        }
-      }.to_json
+      file = File.expand_path('../../fixtures/cbs_api_response.json', __FILE__)
+      JSON.parse(File.read(file)).deep_symbolize_keys
     end
-    let(:player_hash_array) { [JSON.parse(FactoryBot.build(:player, sport: sport).to_json).symbolize_keys] }
+    let(:player_hash_array) { http_response_body.dig(:body, :players) }
 
     before do
-      stub_request(:get, cbs_url).to_return(status: http_status, body: http_response_body)
+      stub_request(:get, cbs_url).to_return(status: http_status, body: http_response_body.to_json)
     end
 
     context 'when the request to CBS API is successful' do

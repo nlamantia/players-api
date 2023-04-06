@@ -11,7 +11,9 @@ class Player < ApplicationRecord
   scope :by_position, ->(position) { where(position: position) }
 
   def average_position_age_diff
-    age - (self.class.where(position: position).average(:age).floor)
+    # if a player object is constructed without saving to the database and
+    # no players are in the database, the average age is this players age
+    age - (self.class.where(position: position).average(:age)&.floor || age)
   end
 
   def name_brief

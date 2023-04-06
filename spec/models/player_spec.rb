@@ -133,6 +133,28 @@ RSpec.describe Player, type: :model do
     end
   end
 
+  describe '#aged' do
+    subject { described_class.aged(ages) }
+
+    let!(:player) { FactoryBot.create(:player) }
+
+    context 'when given a specific age' do
+      let(:ages) { 26 }
+
+      it 'returns the correct player' do
+        expect(subject).to contain_exactly(player)
+      end
+    end
+
+    context 'when given an age range' do
+      let(:ages) { 20..30 }
+
+      it 'returns the correct player' do
+        expect(subject).to contain_exactly(player)
+      end
+    end
+  end
+
   describe '#name_brief' do
     subject { player.name_brief }
 

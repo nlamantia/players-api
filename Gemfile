@@ -19,6 +19,7 @@ gem "redis"
 
 # For job processing
 gem "sidekiq"
+gem "sidekiq-cron"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"

@@ -13,7 +13,7 @@ class Player < ApplicationRecord
   def average_position_age_diff
     # if a player object is constructed without saving to the database and
     # no players are in the database, the average age is this players age
-    age - (self.class.where(position: position).average(:age)&.floor || age)
+    age - (self.class.send(sport.to_sym).where(position: position).average(:age)&.floor || age)
   end
 
   def name_brief
@@ -27,7 +27,7 @@ class Player < ApplicationRecord
     end
   end
 
-  def as_json
+  def as_json(*args, **kwargs)
     json = super(except: %i[created_at updated_at sport], methods: %i[name_brief average_position_age_diff])
     json['first_name'] = json.delete('firstname')
     json['last_name'] = json.delete('lastname')

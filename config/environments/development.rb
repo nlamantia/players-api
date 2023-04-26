@@ -57,4 +57,13 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  # logging config
+  logger = ActiveSupport::Logger.new(STDOUT)
+  logger.formatter = config.log_formatter
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
+
+  # file watcher
+  config.reload_classes_only_on_change = false
+  config.file_watcher = ActiveSupport::FileUpdateChecker
 end

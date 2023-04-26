@@ -13,8 +13,11 @@ class PlayersController < ApplicationController
       @players = @players.send(scope, search_params[param]) unless search_params[param].nil?
     end
 
-    render json: @players.map(&:as_json)
+    @players = @players.page(params[:page] || 1)
+
+    render json: { players: @players, current_page: @players.current_page, total_pages: @players.total_pages }
   end
+
   def show
     @player = Player.find(params[:id])
     render json: @player.as_json

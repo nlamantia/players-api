@@ -21,6 +21,9 @@ gem "redis"
 gem "sidekiq"
 gem "sidekiq-cron"
 
+# For pagination
+gem 'kaminari'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
